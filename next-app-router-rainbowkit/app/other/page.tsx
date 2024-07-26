@@ -11,19 +11,18 @@ function Page() {
   const { address } = useAccount();
   const [value, setValue] = React.useState("");
 
-  const createEvent = async (origin: string) => {
+  const createEvent = async () => {
     try {
       const buttonClick = {
-        event: origin,
         data: {
           timeStamp: new Date().toISOString(),
-          page: "home",
+          page: "other",
         },
         metadata: {
           address,
         },
       };
-      const res = await fetch("/api/one", {
+      const res = await fetch("/api/two", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,10 +38,11 @@ function Page() {
   };
 
   useEffect(() => {
-    if (address) {
+    if (address && !value) {
       // spindl.attribute(address);
+      createEvent();
     }
-  }, [address]);
+  }, [address, value]);
 
   return (
     <div
@@ -63,35 +63,13 @@ function Page() {
         <ConnectButton />
         <button
           style={{
-            color: "blue",
-            marginLeft: 12,
-          }}
-          onClick={async () => {
-            await createEvent("blue_button_click");
-          }}
-        >
-          Track Custom Event
-        </button>
-        <button
-          style={{
-            color: "red",
-            marginLeft: 12,
-          }}
-          onClick={async () => {
-            await createEvent("red_button_click");
-          }}
-        >
-          Track Custom Event
-        </button>
-        <button
-          style={{
             marginLeft: 12,
           }}
           onClick={() => {
-            window.location.href = "/other";
+            window.location.href = "/";
           }}
         >
-          Other Page
+          Back
         </button>
       </div>
       <TextareaAutosize
