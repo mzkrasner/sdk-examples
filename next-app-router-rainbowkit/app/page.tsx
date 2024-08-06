@@ -45,7 +45,7 @@ function Page() {
     };
     // add the image url to the form data
     formData.append("imageCid", imageCid);
-    formData.append("address", address);
+    formData.append("address", address as string);
     axios.post(url, formData, config).then((response) => {
       console.log(response.data);
       setValue(JSON.stringify(response.data, null, 2));

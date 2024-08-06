@@ -16,6 +16,8 @@ npm install
 
 Once copied, assign it to `NEXT_PUBLIC_PROJECT_ID` in your .env file
 
+You'll also need to obtain a client ID from [ThirdWeb](https://thirdweb.com/dashboard) as well (we are using this service to upload files to IPFS). Once obtained, assign to `NEXT_PUBLIC_THIRDWEB_ID`.
+
 4. Visit the [Orbis Studio](https://studio.useorbis.com/) and create a free account if you do not already have one. 
 
 First, set up a new context (required to use a shared instance). Assign this to `CONTEXT_ID` in your .env file.
