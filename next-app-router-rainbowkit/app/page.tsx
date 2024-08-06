@@ -4,38 +4,52 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import * as React from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import spindl from "@spindl-xyz/attribution";
+import { MediaRenderer, useStorageUpload } from "@thirdweb-dev/react";
+import axios from "axios";
 import { useEffect } from "react";
 
 function Page() {
   const { address } = useAccount();
   const [value, setValue] = React.useState("");
+  const [file, setFile] = React.useState<File | undefined>(undefined);
+  const { mutateAsync: upload } = useStorageUpload();
 
-  const createEvent = async (origin: string) => {
-    try {
-      const buttonClick = {
-        event: origin,
-        data: {
-          timeStamp: new Date().toISOString(),
-          page: "home",
-        },
-        metadata: {
-          address,
-        },
-      };
-      const res = await fetch("/api/one", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(buttonClick),
-      });
-      const result = await res.json();
-      console.log(result);
-      setValue(JSON.stringify(result, null, 2));
-    } catch (error) {
-      console.error(error);
+  const handleChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const uploadToIpfs = async () => {
+    const uploadUrl = await upload({
+      data: [file],
+      options: { uploadWithGatewayUrl: true, uploadWithoutDirectory: true },
+    });
+    return uploadUrl[0];
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const url = "http://localhost:3000/api/three";
+    const formData = new FormData();
+    if (!file) {
+      console.error("No file selected");
+      return;
     }
+    const imageUrl = await uploadToIpfs();
+    const imageCid = imageUrl.split("/")[imageUrl.split("/").length - 2];
+    formData.append("file", file);
+    formData.append("fileName", file.name);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    // add the image url to the form data
+    formData.append("imageCid", imageCid);
+    formData.append("address", address);
+    axios.post(url, formData, config).then((response) => {
+      console.log(response.data);
+      setValue(JSON.stringify(response.data, null, 2));
+    });
   };
 
   useEffect(() => {
@@ -53,6 +67,7 @@ function Page() {
         padding: 12,
       }}
     >
+      <ConnectButton />
       <div
         style={{
           display: "flex",
@@ -60,39 +75,13 @@ function Page() {
           padding: 12,
         }}
       >
-        <ConnectButton />
-        <button
-          style={{
-            color: "blue",
-            marginLeft: 12,
-          }}
-          onClick={async () => {
-            await createEvent("blue_button_click");
-          }}
-        >
-          Track Custom Event
-        </button>
-        <button
-          style={{
-            color: "red",
-            marginLeft: 12,
-          }}
-          onClick={async () => {
-            await createEvent("red_button_click");
-          }}
-        >
-          Track Custom Event
-        </button>
-        <button
-          style={{
-            marginLeft: 12,
-          }}
-          onClick={() => {
-            window.location.href = "/other";
-          }}
-        >
-          Other Page
-        </button>
+        {address && (
+          <form>
+            <h1>Upload a File</h1>
+            <input type="file" onChange={handleChange} />
+            <button onClick={handleSubmit}>Upload</button>
+          </form>
+        )}
       </div>
       <TextareaAutosize
         style={{

@@ -21,20 +21,9 @@ import {
   zora,
   goerli,
 } from "wagmi/chains";
+import { env } from "@/env.mjs";
 import { publicProvider } from "wagmi/providers/public";
-
-import spindl from "@spindl-xyz/attribution";
-// import spindl from "@spindl-xyz/attribution-lite" // for lite version customers
-
-// if (typeof window !== "undefined") {
-//   spindl.configure({
-//     sdkKey: process.env.NEXT_PUBLIC_SPINDL_SDK_KEY as string,
-//     debugMode: true, // only to use for testing to see console logs in browser. Set to false in production
-//     host: `${window.location.origin}/ingest`,
-//   });
-
-//   spindl.enableAutoPageViews();
-// }
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -85,9 +74,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   React.useEffect(() => setMounted(true), []);
   return (
     <WagmiConfig config={wagmiConfig}>
+      <ThirdwebProvider activeChain="ethereum" clientId={env.NEXT_PUBLIC_THIRDWEB_ID}>
       <RainbowKitProvider chains={chains} appInfo={demoAppInfo}>
         {mounted && children}
       </RainbowKitProvider>
+      </ThirdwebProvider>
     </WagmiConfig>
   );
 }

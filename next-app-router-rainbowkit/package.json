@@ -11,22 +11,27 @@
     "generate": "node ./scripts/generate.mjs"
   },
   "dependencies": {
+    "@ethereum-attestation-service/eas-sdk": "^0.29.1",
     "@rainbow-me/rainbowkit": "^1.0.2",
     "@spindl-xyz/attribution": "^1.6.1",
     "@spindl-xyz/attribution-lite": "^1.6.1",
+    "@t3-oss/env-nextjs": "^0.10.1",
+    "@thirdweb-dev/react": "^4.9.4",
     "@useorbis/db-sdk": "^0.0.51-alpha",
+    "ethers": "5.7.2",
+    "alchemy-sdk": "^3.3.1",
+    "axios": "^1.7.3",
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@t3-oss/env-nextjs": "^0.10.1",
     "react-textarea-autosize": "^8.5.3",
     "viem": "~1.10.7",
-    "zod": "^3.23.8",
-    "wagmi": "~1.4.1"
+    "wagmi": "~1.4.1",
+    "zod": "^3.23.8"
   },
   "overrides": {
     "@noble/ciphers": "^0.5.0"
-},
+  },
   "devDependencies": {
     "@types/node": "^18.16.12",
     "@types/react": "^18.2.21",

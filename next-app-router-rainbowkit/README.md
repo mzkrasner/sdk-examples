@@ -1,6 +1,6 @@
 # Event Data Demo (using OrbisDB)
 
-This demo application shows how Spindl event attribution data can be written to Ceramic where it can be organized, queried, and synced by anyone on the network
+This demo application shows how users can upload an arbitrary document, obtain a hash of the file, and create an attestation on Orbis with the values of the hash and the IPFS location.
 
 ## Getting Started
 
@@ -20,17 +20,17 @@ Once copied, assign it to `NEXT_PUBLIC_PROJECT_ID` in your .env file
 
 First, set up a new context (required to use a shared instance). Assign this to `CONTEXT_ID` in your .env file.
 
-Next, navigate to the [model builder](https://studio.useorbis.com/models) view and use the [table reference](models/tables.sql) to define your tables. Use the corresponding model IDs to assign to `CUSTOM_EVENT_ID` (for the "custom_event" table) and `CUSTOM_EVENT_ID_2` (for the "pageview" table) in your .env file.
+Next, navigate to the [model builder](https://studio.useorbis.com/models) view and use the [table reference](models/tables.sql) to define your tables. Use the corresponding model ID to assign to `ATTESTATION_TABLE_ID` in your new env file.
 
 Click the "Contexts" tab in the studio navbar and copy your environment ID from the left-hand side of the screen. Assign the value to `ENV_ID` in your .env file.
 
-5. Create two private seeds - these will be used in place of Spindl API keys (to mock the flow of a user using a secret key to self-authenticate and write data to the network associated with that key). You can do so by running the following command:
+5. Create a private seeds. You can do so by running the following command:
 
 ```bash
 npm run generate
 ```
 
-Save the corresponding strings to `PRIVATE_DID_SEED` and `PRIVATE_DID_SEED_2` in your .env file
+Save the corresponding string to `PRIVATE_DID_SEED` in your .env file
 
 6. Run the application:
 
@@ -39,7 +39,7 @@ Save the corresponding strings to `PRIVATE_DID_SEED` and `PRIVATE_DID_SEED_2` in
 npm run dev
 ```
 
-You can create events associated with two button clicks on the homepage. Navigate to `/other` and pageview events will automatically be generated for you on page load.
+You can upload files and have them hashed and saved to IPFS + Ceramic.
 
 You can view these events back in your studio view under the "data" tab.
 

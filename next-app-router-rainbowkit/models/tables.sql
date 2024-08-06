@@ -1,20 +1,10 @@
 -- LIST accountRelation
-table custom_event {
-  stream_id text -- The stream id of the post - auto-generated (do not define when creating table)
-  controller text -- The DID controller of the post - auto-generated (do not define when creating table)
-  address text -- The tag of the post
-  page text -- The body of the post
-  event_name text -- The event name of the post
-  customer_user_id text -- The customer user id of the post
-  timestamp DateTime -- The date and time the post was created
+table attestations {
+  content_hash string -- The hash of the content
+  CID string -- The CID of the content
+  owner string -- The owner of the content
+  name string -- The name of the content
+  start_timestamp DateTime -- The start timestamp of the content
+  end_timestamp DateTime -- The end timestamp of the content
 }
 
--- LIST accountRelation
-table pageview {
-  stream_id text -- The stream id of the post - auto-generated (do not define when creating table)
-  controller text -- The DID controller of the post - auto-generated (do not define when creating table)
-  address text -- The tag of the post
-  page text -- The body of the post
-  customer_user_id text -- The customer user id of the post
-  timestamp DateTime -- The date and time the post was created
-}
